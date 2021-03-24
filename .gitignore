@@ -37,3 +37,5 @@ nbdist/
 
 *.log
 tmp/
+_uniapp/unpackage/
+_uniapp/.hbuilderx

@@ -1,0 +1,79 @@
+{
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index/index",
+      "style": {}
+    }, {
+      "path": "pages/home/home",
+      "style": {}
+    }, {
+      "path": "pages/about/about",
+      "style": {}
+    }, {
+      "path": "pages/search/search",
+      "style": {}
+    }, {
+      "path": "pages/case/case",
+      "style": {}
+    }, {
+      "path": "pages/information/information",
+      "style": {}
+    }, {
+      "path": "pages/my/my",
+      "style": {}
+    }, {
+      "path": "pages/business-detail/business-detail",
+      "style": {}
+    }, {
+      "path": "pages/case-detail/case-detail",
+      "style": {}
+    }, {
+      "path": "pages/information-detail/information-detail",
+      "style": {}
+    }, {
+      "path": "pages/components/home",
+      "style": {}
+    }
+  ],
+  "subPackages": [{
+    "root": "tn_components",
+    "pages": [{
+      "path": "gamecube",
+      "style": {}
+    }, {
+      "path": "pano",
+      "style": {}
+    }, {
+      "path": "bggrad",
+      "style": {}
+    }, {
+      "path": "bgcolor",
+      "style": {}
+    }, {
+      "path": "ancube",
+      "style": {}
+    }, {
+      "path": "anloading",
+      "style": {}
+    }, {
+      "path": "mimicry",
+      "style": {}
+    }, {
+      "path": "theme",
+      "style": {}
+    }]
+  }],
+  "preloadRule": {
+    "pages/components/home": {
+      "network":"all",
+      "packages": ["tn_components"]
+    }
+  },
+  "globalStyle": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "图鸟官网",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "usingComponents": true
+  }
+}
