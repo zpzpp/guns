@@ -31,6 +31,14 @@
 
     <dependencies>
 
+        <!--WX_MP-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+
         <!--认证和鉴权模块-->
         <dependency>
             <groupId>cn.stylefeng.roses</groupId>

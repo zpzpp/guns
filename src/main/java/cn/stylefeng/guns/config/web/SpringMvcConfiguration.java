@@ -5,6 +5,7 @@ import cn.stylefeng.guns.core.error.CustomErrorAttributes;
 import cn.stylefeng.guns.core.error.CustomErrorView;
 import cn.stylefeng.guns.core.security.AuthJwtTokenSecurityInterceptor;
 import cn.stylefeng.guns.core.security.PermissionSecurityInterceptor;
+import cn.stylefeng.guns.core.security.WxMiniappSecurityInterceptor;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,9 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
 
     @Resource
     private PermissionSecurityInterceptor permissionSecurityInterceptor;
+
+    @Resource
+    private WxMiniappSecurityInterceptor wxMiniappSecurityInterceptor;
 
     /**
      * 重写系统的默认错误提示
@@ -78,6 +82,7 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authJwtTokenSecurityInterceptor);
         registry.addInterceptor(permissionSecurityInterceptor);
+        registry.addInterceptor(wxMiniappSecurityInterceptor);
     }
 
     /**
