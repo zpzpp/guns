@@ -48,39 +48,39 @@
 }
 
 .nav-name {
-  font-size: 28upx;
+  font-size: 42upx;
   text-transform: Capitalize;
-  margin-top: 20upx;
+  /* margin-top: 20upx; */
+  padding: 10rpx 0;
   position: relative;
 }
-
 .nav-name::before {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 40upx;
-  height: 6upx;
-  background: #fff;
-  bottom: 0;
-  right: 0;
-  opacity: 0.5;
+    content: "";
+    position: absolute;
+    display: block;
+    width: 50rpx;
+    height: 6rpx;
+    background: #fff;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
 }
 
 .nav-name::after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 100upx;
-  height: 1px;
-  background: #fff;
-  bottom: 0;
-  right: 40upx;
-  opacity: 0.3;
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #fff;
+    bottom: 0;
+    left: 0rpx;
+    opacity: 0.3;
 }
 
 .nav-name::first-letter {
   font-weight: bold;
-  font-size: 36upx;
+  font-size: 46upx;
   margin-right: 1px;
 }
 

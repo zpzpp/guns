@@ -179,6 +179,7 @@
       },
       switchTab(name) {
         this.curPage = name
+        this.tabberPageLoadFlag[this.curPage] = true
       }
     }
   }

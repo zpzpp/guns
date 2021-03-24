@@ -40,7 +40,7 @@ export function getUserInfo() {
             success: (res) => {
 				debugger
                 if (!app.globalData.isUpdateUserInfo) {
-                    _updateUserInfo(app, res.userInfo);
+                    _updateUserInfo(app, res);
                 }
                 resolve(res.userInfo);
             },
@@ -56,12 +56,17 @@ export function getUserInfo() {
  * params:
  * userInfo 需要上传到服务器的用户信息
  */
-function _updateUserInfo(app, userInfo) {
-    // console.log(userInfo);
+function _updateUserInfo(app, data) {
+    console.log(data);
+	let userInfo = data.userInfo;
     updateUserInfo({
-        nick_name: userInfo.nickName,
-        avatar_url: userInfo.avatarUrl,
-        gender: userInfo.gender
+        nickName: userInfo.nickName,
+        avatarUrl: userInfo.avatarUrl,
+        gender: userInfo.gender,
+        rawData: data.rawData,
+        signature: data.signature,
+        encryptedData: data.encryptedData,
+        iv: data.iv
     }).then((res) => {
         if (res.code === 200) {
             app.globalData.isUpdateUserInfo = true;

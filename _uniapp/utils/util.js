@@ -13,15 +13,15 @@ const timeGreeting = date => {
   const hour = date.getHours()
 
   if (hour > 0 && hour < 6) {
-    return '现在是凌晨' + hour + '点,注意休息呗';
+    return '现在是凌晨' + hour + '点，注意休息呗';
   } else if (hour >= 6 && hour < 11) {
-    return 'Hi,早上好吖';
+    return 'Hi，早上好吖';
   } else if (hour >= 11 && hour < 13) {
-    return 'Hi,中午好吖';
+    return 'Hi，中午好吖';
   } else if (hour >= 13 && hour < 18) {
-    return 'Hi,下午好吖';
+    return 'Hi，下午好吖';
   } else {
-    return 'Hi,晚上好吖';
+    return 'Hi，晚上好吖';
   }
 }
 

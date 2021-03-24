@@ -2,9 +2,9 @@
   <view class="business-detail">
     <tn-custom bg-color="bg-white shadow">
       <block slot="left">
-        <navigator class='action' open-type="navigateBack" :delta="1" hover-class="none">
+        <navigator class='action ' open-type="navigateBack" :delta="1" hover-class="none">
           <text class='cuIcon-back_android' style="font-size:48rpx"></text>
-          <text class="">业务 - {{businessData.title}}</text>
+          <text class="tn-custom-text">业务 - {{businessData.title}}</text>
         </navigator>
       </block>
     </tn-custom>
@@ -47,10 +47,10 @@
         <text class="text-sm">{{businessData.query_count}}人已咨询</text>
       </view>
       <view class='bg-gradual-red submit margin-left-xl text-xl'>
-        <button v-if="checkUserScopeFlag" class='button-no' open-type="contact" @contact="handleContact">
+        <button v-if="checkUserScopeFlag" class='button-no padding-top-xs' open-type="contact" @contact="handleContact">
           <text class='text-white'>业务咨询</text>
         </button>
-        <button v-else class='button-no' @click="advisoryBusiness">
+        <button v-else class='button-no padding-top-xs' @click="advisoryBusiness">
           <text class='text-white'>业务咨询</text>
         </button>
       </view>

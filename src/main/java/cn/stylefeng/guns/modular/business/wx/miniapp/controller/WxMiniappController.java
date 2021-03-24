@@ -96,7 +96,7 @@ public class WxMiniappController {
      * @author fengshuonan
      * @date 2021/1/24 10:59
      */
-    @PostResource(name = "小程序登录", path = "/userinfo")
+    @PostResource(name = "小程序登录", path = "/user/update")
     public ResponseData wxMiniappUserInfo(@RequestBody WxMiniappRequest wxMiniappRequest) {
         // 用户信息校验
         if (!wxMaService.getUserService().checkUserInfo(wxMiniappRequest.getSessionKey(), wxMiniappRequest.getRawData(), wxMiniappRequest.getSignature())) {

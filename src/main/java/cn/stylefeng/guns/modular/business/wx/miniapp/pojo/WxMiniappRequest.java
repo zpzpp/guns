@@ -12,6 +12,14 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 public class WxMiniappRequest {
+    /*private String openId;
+    private String nickName;
+    private String gender;
+    private String language;
+    private String city;
+    private String province;
+    private String country;
+    private String avatarUrl;*/
 
     /**
      * 传递给上级页面的哪个字段，例如 parent.MenuInfoDlg.data.pcodeName
