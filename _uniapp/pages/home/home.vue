@@ -184,8 +184,20 @@
 
         // 获取对应的问候语
         this.greeting = util.timeGreeting(new Date())
+		uni.request({
+		    url:  'http://localhost:8080/sysConfig/list',
+		    method: 'GET',
+			header: {
+              'content-type': 'application/json',
+              'Authorization': uni.getStorageSync('auth_openid')
+          },
+		    success: (res) => {
+		       console.log(res)
+			   debugger
+		    }
+		})
 
-        Promise.all([
+        /* Promise.all([
           this._getServerConfig(),
           this._getBannerData(),
           this._getRecommCase(),
@@ -202,7 +214,7 @@
             title: '加载错误',
             content: '数据加载错误，请关闭小程序后重试',
           });
-        })
+        }) */
       },
 
       /**

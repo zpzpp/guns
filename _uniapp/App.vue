@@ -6,7 +6,7 @@
 	export default {
 		onLaunch: function() {
 			//登录监测
-			verifyToken()
+			// verifyToken()
 			uni.getSystemInfo({
 				success: function(e) {
 					// #ifndef H5
