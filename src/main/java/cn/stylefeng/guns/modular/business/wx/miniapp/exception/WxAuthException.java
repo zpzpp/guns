@@ -22,48 +22,27 @@
  * 5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://gitee.com/stylefeng/guns
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
-package cn.stylefeng.guns.modular.business.wx.miniapp.exception.enums;
+package cn.stylefeng.guns.modular.business.wx.miniapp.exception;
 
+import cn.hutool.core.util.StrUtil;
 import cn.stylefeng.roses.kernel.auth.api.constants.AuthConstants;
-import cn.stylefeng.roses.kernel.rule.constants.RuleConstants;
 import cn.stylefeng.roses.kernel.rule.exception.AbstractExceptionEnum;
-import lombok.Getter;
+import cn.stylefeng.roses.kernel.rule.exception.base.ServiceException;
 
 /**
- * 认证相关异常
+ * 认证类异常
  *
  * @author fengshuonan
- * @date 2020/10/16 10:53
+ * @date 2020/10/15 15:59
  */
-@Getter
-public enum WxAuthExceptionEnum implements AbstractExceptionEnum {
+public class WxAuthException extends ServiceException {
 
-    /**
-     * 会话过期或超时，token过期，都属于这种异常，提示用户从新登录
-     */
-    WX_AUTH_EXPIRED_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + AuthConstants.AUTH_EXCEPTION_STEP_CODE + "87", "wx当前登录会话过期，请重新登录"),
-    /**
-     * 会话过期或超时，token过期，都属于这种异常，提示用户从新登录
-     */
-    WX_GET_USERINFO_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + AuthConstants.AUTH_EXCEPTION_STEP_CODE + "89", "wx获取用户信息异常，请重新登录"),
-    /**
-     * 获取token失败
-     */
-    WX_TOKEN_GET_ERROR(RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + AuthConstants.AUTH_EXCEPTION_STEP_CODE + "88", "wx获取token失败，请检查header和param中是否传递了用户token");
+    public WxAuthException(AbstractExceptionEnum exception, Object... params) {
+        super(AuthConstants.AUTH_MODULE_NAME, exception.getErrorCode(), StrUtil.format(exception.getUserTip(), params));
+    }
 
-    /**
-     * 错误编码
-     */
-    private final String errorCode;
-
-    /**
-     * 提示用户信息
-     */
-    private final String userTip;
-
-    WxAuthExceptionEnum(String errorCode, String userTip) {
-        this.errorCode = errorCode;
-        this.userTip = userTip;
+    public WxAuthException(AbstractExceptionEnum exception) {
+        super(AuthConstants.AUTH_MODULE_NAME, exception);
     }
 
 }

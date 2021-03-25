@@ -4,16 +4,22 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HtmlUtil;
 import cn.stylefeng.guns.modular.business.service.DemoService;
+import cn.stylefeng.guns.modular.business.wx.miniapp.exception.WxAuthException;
+import cn.stylefeng.guns.modular.business.wx.miniapp.exception.enums.WxAuthExceptionEnum;
 import cn.stylefeng.guns.modular.business.wx.miniapp.pojo.WxLoginUser;
 import cn.stylefeng.guns.modular.business.wx.miniapp.pojo.WxMiniappRequest;
 import cn.stylefeng.guns.modular.business.wx.miniapp.service.WxSessionManagerService;
 import cn.stylefeng.roses.kernel.auth.api.context.LoginContext;
+import cn.stylefeng.roses.kernel.rule.exception.AbstractExceptionEnum;
 import cn.stylefeng.roses.kernel.rule.pojo.response.ErrorResponseData;
 import cn.stylefeng.roses.kernel.rule.pojo.response.ResponseData;
 import cn.stylefeng.roses.kernel.rule.pojo.response.SuccessResponseData;
 import cn.stylefeng.roses.kernel.rule.util.HttpServletUtil;
 import cn.stylefeng.roses.kernel.scanner.api.annotation.ApiResource;
+import cn.stylefeng.roses.kernel.scanner.api.annotation.GetResource;
 import cn.stylefeng.roses.kernel.scanner.api.annotation.PostResource;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,18 +79,18 @@ public class WxMiniappController {
      * @author fengshuonan
      * @date 2021/1/24 10:59
      */
-    @PostResource(name = "小程序登录", path = "/token/verify")
-    public ResponseData tokenVerify(@RequestBody WxMiniappRequest wxMiniappRequest) {
+    @GetResource(name = "小程序登录", path = "/token/verify")
+    public ResponseData tokenVerify(String token) {
         WxLoginUser loginUser;
         boolean result = true;
         try {
-            loginUser = wxSessionManagerService.getSession(wxMiniappRequest.getToken());
+            loginUser = wxSessionManagerService.getSession(token);
             if (loginUser == null) {
                 result = false;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ErrorResponseData("500", e.getMessage());
+            return new ErrorResponseData(WxAuthExceptionEnum.WX_AUTH_EXPIRED_ERROR.getErrorCode(), WxAuthExceptionEnum.WX_AUTH_EXPIRED_ERROR.getUserTip());
         }
 
         return new SuccessResponseData(result);
@@ -98,16 +104,27 @@ public class WxMiniappController {
      */
     @PostResource(name = "小程序登录", path = "/user/update")
     public ResponseData wxMiniappUserInfo(@RequestBody WxMiniappRequest wxMiniappRequest) {
-        // 用户信息校验
-        if (!wxMaService.getUserService().checkUserInfo(wxMiniappRequest.getSessionKey(), wxMiniappRequest.getRawData(), wxMiniappRequest.getSignature())) {
-            return new ErrorResponseData("500", "获取用户信息失败");
+        String rawData = wxMiniappRequest.getRawData();
+        if (StrUtil.isNotEmpty(rawData)) {
+            rawData = HtmlUtil.unescape(rawData);
         }
-        // 解密用户信息
-        WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(wxMiniappRequest.getSessionKey(), wxMiniappRequest.getEncryptedData(), wxMiniappRequest.getIv());
         String token = LoginContext.me().getToken();
         WxLoginUser loginUser = wxSessionManagerService.getSession(token);
-        BeanUtil.copyProperties(userInfo, loginUser);
-        wxSessionManagerService.updateSession(token, loginUser);
+        // 用户信息校验
+        if (!wxMaService.getUserService().checkUserInfo(loginUser.getSessionKey(), rawData, wxMiniappRequest.getSignature())) {
+            return new ErrorResponseData(WxAuthExceptionEnum.WX_GET_USERINFO_ERROR.getErrorCode(), WxAuthExceptionEnum.WX_GET_USERINFO_ERROR.getUserTip());
+        }
+        try {
+            // 解密用户信息
+            WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(loginUser.getSessionKey(), wxMiniappRequest.getEncryptedData(), wxMiniappRequest.getIv());
+
+            BeanUtil.copyProperties(userInfo, loginUser);
+            loginUser.setLoginTime(new Date());
+            wxSessionManagerService.updateSession(token, loginUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ErrorResponseData(WxAuthExceptionEnum.WX_GET_USERINFO_ERROR.getErrorCode(), WxAuthExceptionEnum.WX_GET_USERINFO_ERROR.getUserTip());
+        }
         return new SuccessResponseData(loginUser);
     }
 

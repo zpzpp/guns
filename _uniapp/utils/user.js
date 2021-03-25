@@ -2,6 +2,9 @@
  * Created by tuniao on 2020/1/2
  */
 import { updateUserInfo } from '@/api/user'
+import {
+  USER_INFO_NAME
+} from 'config.js';
 
 /**
  * 检查用户是否已经授权登陆
@@ -10,7 +13,6 @@ export function checkUserScope() {
     const app = getApp();
     return new Promise((reslove, reject) => {
         //判断用户是否已经更新过信息
-		debugger
         if (app.globalData.isUpdateUserInfo == true) {
             reslove(true);
         } else {
@@ -18,7 +20,6 @@ export function checkUserScope() {
             uni.getSetting({
                 success: (res) => {
                     if (res.authSetting['scope.userInfo']) {
-						debugger
                         reslove(true);
                     } else {
                         reject(false);
@@ -38,7 +39,6 @@ export function getUserInfo() {
         uni.getUserInfo({
           provider: 'weixin',
             success: (res) => {
-				debugger
                 if (!app.globalData.isUpdateUserInfo) {
                     _updateUserInfo(app, res);
                 }
@@ -59,17 +59,23 @@ export function getUserInfo() {
 function _updateUserInfo(app, data) {
     console.log(data);
 	let userInfo = data.userInfo;
+	let rawData = data.rawData;
+	/* if(rawData){
+		rawData = rawData.replace(/\"/g,"'")
+	} */
     updateUserInfo({
         nickName: userInfo.nickName,
         avatarUrl: userInfo.avatarUrl,
         gender: userInfo.gender,
-        rawData: data.rawData,
+        rawData: rawData,
         signature: data.signature,
         encryptedData: data.encryptedData,
         iv: data.iv
     }).then((res) => {
-        if (res.code === 200) {
+		debugger
+        if (res.code === "00000") {
             app.globalData.isUpdateUserInfo = true;
+			uni.setStorageSync(USER_INFO_NAME, res.data);
         }
     })
 }

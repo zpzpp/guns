@@ -79,7 +79,9 @@
     onLoad() {
       // 用于更新用户的信息
       //判断是否已经有token，或者验证成功(程序初始化完毕)
-      checkUserScope().then(() => {
+	  verifyToken().then(() => {
+		  checkUserScope()
+	  }).then(() => {
         getUserInfo();
       }).catch(() => {})
     },

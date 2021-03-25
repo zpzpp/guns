@@ -16,7 +16,7 @@ export function request(params) {
       url = params.url;
   }
   return new Promise((resolve, reject) => {
-	  debugger
+	  console.log(params.data)
       uni.request({
           url: url,
           data: params.data,
@@ -34,9 +34,11 @@ export function request(params) {
               if (startChar == '2') {
                   resolve(res.data);
               } else {
+				  console.log(res)
+				  debugger
                   //token已经过期了，需要重新获取
                   //验证errorCode是用于区别没有授权的网站使用
-                  if (code == '401' && res.data.errorCode == 30000) {
+                  if (code == '401') {
                       await getTokenFromServer();
                       return request(params);
                   }
@@ -69,8 +71,8 @@ function getTokenFromServer() {
                       code: res.code
                   },
                   success: (res) => {
-                      uni.setStorageSync(TOKEN_NAME, res.data.token);   //将Token存放在本地
-                      resolve(res.data.token);
+                      uni.setStorageSync(TOKEN_NAME, res.data.data.openid);   //将Token存放在本地
+                      resolve(res.data.data);
                   }
               })
           }
@@ -84,25 +86,26 @@ function getTokenFromServer() {
 function _processError(err) {
   // 判断错误的信息是什么类型
   let msg = [];
-  if (err && err.data && typeof err.data.msg == 'object') {
-    for (let item in err.data.msg) {
-      msg.push(err.data.msg[item]);
+  debugger
+  if (err && err.data && typeof err.data.message == 'object') {
+    for (let item in err.data.message) {
+      msg.push(err.data.message[item]);
     }
-  } else if (err && err.data && typeof err.data.msg == 'string') {
-    msg.push(err.data.msg);
+  } else if (err && err.data && typeof err.data.message == 'string') {
+    msg.push(err.data.message);
   } else {
     msg.push('未知错误');
   }
   console.log(msg[0]);
 
-  if (err && err.data && (err.data.errorCode == 30000 ||
+/*  if (err && err.data && (err.data.errorCode == 30000 ||
     err.data.errorCode == 40012 ||
     err.data.errorCode == 40103 ||
     err.data.errorCode == 40104 ||
     err.data.errorCode == 20004 ||
     err.data.errorCode == 20200)) {
     return;
-  }
+  } */
 
   uni.showToast({
     title: msg[0],

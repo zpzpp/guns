@@ -179,6 +179,9 @@ RG
 		created() {
 			this._loadData();
 		},
+		updated(){
+			console.log("首页updated")
+		},
 		methods: {
 			// 跳转到业务详情
 			navBusinessDetail(id) {

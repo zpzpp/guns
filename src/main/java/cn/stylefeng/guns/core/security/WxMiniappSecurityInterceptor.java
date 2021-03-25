@@ -2,6 +2,7 @@ package cn.stylefeng.guns.core.security;
 
 import cn.hutool.core.util.StrUtil;
 import cn.stylefeng.guns.modular.business.wx.miniapp.context.WxLoginUserTreadLocalContext;
+import cn.stylefeng.guns.modular.business.wx.miniapp.exception.WxAuthException;
 import cn.stylefeng.guns.modular.business.wx.miniapp.exception.enums.WxAuthExceptionEnum;
 import cn.stylefeng.guns.modular.business.wx.miniapp.pojo.WxLoginUser;
 import cn.stylefeng.guns.modular.business.wx.miniapp.service.WxSessionManagerService;
@@ -9,6 +10,7 @@ import cn.stylefeng.roses.kernel.auth.api.AuthServiceApi;
 import cn.stylefeng.roses.kernel.auth.api.SessionManagerApi;
 import cn.stylefeng.roses.kernel.auth.api.context.LoginContext;
 import cn.stylefeng.roses.kernel.auth.api.exception.AuthException;
+import cn.stylefeng.roses.kernel.auth.api.exception.enums.AuthExceptionEnum;
 import cn.stylefeng.roses.kernel.rule.util.AntPathMatcherUtil;
 import cn.stylefeng.roses.kernel.scanner.api.pojo.resource.ResourceDefinition;
 import cn.stylefeng.roses.kernel.scanner.api.pojo.resource.ResourceUrlParam;
@@ -16,6 +18,7 @@ import cn.stylefeng.roses.kernel.system.api.ResourceServiceApi;
 import cn.stylefeng.roses.kernel.validator.api.context.RequestParamContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.annotation.Resource;
@@ -34,6 +37,8 @@ import java.util.List;
 @Slf4j
 public class WxMiniappSecurityInterceptor implements HandlerInterceptor {
 
+    private static final String WX_LOGIN_URL = "/wx/miniapp/token/get";
+
     @Resource
     private ResourceServiceApi resourceServiceApi;
 
@@ -50,6 +55,8 @@ public class WxMiniappSecurityInterceptor implements HandlerInterceptor {
 
         // 1. 获取当前请求的路径
         String requestURI = request.getRequestURI();
+
+
         List<String> wxUrl = new ArrayList<>();
         wxUrl.add("/wx/**");
 
@@ -59,6 +66,11 @@ public class WxMiniappSecurityInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        // 判断是登录连接直接放行
+        if (antPathMatcher.match(WX_LOGIN_URL, requestURI)) {
+            return true;
+        }
         // 3. 获取当前用户的token，可能为null
         String token = null;
         try {
@@ -72,7 +84,7 @@ public class WxMiniappSecurityInterceptor implements HandlerInterceptor {
             request.setAttribute("openid", token);
             WxLoginUser wxLoginUser = wxSessionManagerService.getSession(token);
             if (wxLoginUser == null) {
-                throw new AuthException(WxAuthExceptionEnum.WX_TOKEN_GET_ERROR);
+                throw new WxAuthException(WxAuthExceptionEnum.WX_AUTH_EXPIRED_ERROR);
             }
             WxLoginUserTreadLocalContext.setObject(wxLoginUser);
             // 5. 刷新用户的session的过期时间
@@ -103,6 +115,14 @@ public class WxMiniappSecurityInterceptor implements HandlerInterceptor {
      */
     public void filterAction(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, ResourceDefinition resourceDefinition, String token) {
 
+        // 如果需要登录
+        if (resourceDefinition.getRequiredLoginFlag()) {
+
+            // token为空，返回用户校验失败
+            if (StrUtil.isEmpty(token)) {
+                throw new WxAuthException(WxAuthExceptionEnum.WX_TOKEN_GET_ERROR);
+            }
+        }
     }
 
     ;

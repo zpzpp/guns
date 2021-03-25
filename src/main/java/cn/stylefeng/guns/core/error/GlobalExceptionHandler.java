@@ -2,6 +2,7 @@ package cn.stylefeng.guns.core.error;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.stylefeng.guns.modular.business.wx.miniapp.exception.WxAuthException;
 import cn.stylefeng.roses.kernel.auth.api.exception.AuthException;
 import cn.stylefeng.roses.kernel.auth.api.exception.enums.AuthExceptionEnum;
 import cn.stylefeng.roses.kernel.rule.constants.SymbolConstant;
@@ -205,6 +206,15 @@ public class GlobalExceptionHandler {
                 return "/login.html";
             }
         }
+
+        // 默认响应前端json
+        ErrorResponseData errorResponseData = renderJson(authException.getErrorCode(), authException.getUserTip(), authException);
+        ResponseRenderUtil.renderJsonResponse(response, errorResponseData);
+        return null;
+    }
+    @ExceptionHandler(WxAuthException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String wxAuthError(WxAuthException authException, HttpServletRequest request, HttpServletResponse response, Model model) {
 
         // 默认响应前端json
         ErrorResponseData errorResponseData = renderJson(authException.getErrorCode(), authException.getUserTip(), authException);
