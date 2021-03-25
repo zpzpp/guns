@@ -269,8 +269,10 @@
 				}); */
 			},
 			supportMe() {
-			  // console.log('advisBusiness');
-			  this._checkUserScope().then(() => {}).catch(() => {
+			  console.log('supportMe');
+			  this._checkUserScope().then(() => {
+				   console.log('supportMe login');
+			  }).catch(() => {
 			    this.showLogin = true
 			  });
 			},
