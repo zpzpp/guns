@@ -30,6 +30,20 @@
 
     <dependencies>
 
+        <!--workflow-->
+        <dependency>
+            <groupId>cn.stylefeng.roses</groupId>
+            <artifactId>workflow-spring-boot-starter</artifactId>
+            <version>${roses.kernel.version}</version>
+        </dependency>
+
+        <!--saas-->
+        <dependency>
+            <groupId>cn.stylefeng.roses</groupId>
+            <artifactId>saas-spring-boot-starter</artifactId>
+            <version>${roses.kernel.version}</version>
+        </dependency>
+
         <!--认证和鉴权模块-->
         <dependency>
             <groupId>cn.stylefeng.roses</groupId>
@@ -96,7 +110,7 @@
         <!--系统管理基础业务-->
         <dependency>
             <groupId>cn.stylefeng.roses</groupId>
-            <artifactId>system-integration-beetl</artifactId>
+            <artifactId>system-integration-rest</artifactId>
             <version>${roses.kernel.version}</version>
         </dependency>
 
