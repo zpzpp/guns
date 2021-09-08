@@ -7,7 +7,6 @@ import cn.stylefeng.roses.kernel.auth.api.exception.AuthException;
 import cn.stylefeng.roses.kernel.auth.api.exception.enums.AuthExceptionEnum;
 import cn.stylefeng.roses.kernel.scanner.api.pojo.resource.ResourceDefinition;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author fengshuonan
  * @date 2020/12/15 22:46
  */
-@Component
 @Slf4j
 public class PermissionSecurityInterceptor extends BaseSecurityInterceptor {
 

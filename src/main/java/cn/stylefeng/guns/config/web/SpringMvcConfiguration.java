@@ -1,19 +1,14 @@
 package cn.stylefeng.guns.config.web;
 
 import cn.stylefeng.guns.core.error.CustomErrorAttributes;
-import cn.stylefeng.guns.core.security.AuthJwtTokenSecurityInterceptor;
-import cn.stylefeng.guns.core.security.PermissionSecurityInterceptor;
 import cn.stylefeng.roses.kernel.security.cors.CorsFilterConfiguration;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.annotation.Resource;
 
 /**
  * spring mvc的配置
@@ -24,12 +19,6 @@ import javax.annotation.Resource;
 @Configuration
 @Import({cn.hutool.extra.spring.SpringUtil.class, CorsFilterConfiguration.class})
 public class SpringMvcConfiguration implements WebMvcConfigurer {
-
-    @Resource
-    private AuthJwtTokenSecurityInterceptor authJwtTokenSecurityInterceptor;
-
-    @Resource
-    private PermissionSecurityInterceptor permissionSecurityInterceptor;
 
     /**
      * 重写系统的默认错误提示
@@ -51,18 +40,6 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.serializerByType(Long.class, ToStringSerializer.instance).serializerByType(Long.TYPE, ToStringSerializer.instance);
-    }
-
-    /**
-     * 配置项目拦截器
-     *
-     * @author fengshuonan
-     * @date 2020/12/18 9:43
-     */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authJwtTokenSecurityInterceptor);
-        registry.addInterceptor(permissionSecurityInterceptor);
     }
 
     /**
