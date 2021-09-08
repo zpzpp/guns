@@ -30,11 +30,21 @@
 
     <dependencies>
 
-        <!--workflow-->
+        <!--工作流-->
         <dependency>
             <groupId>cn.stylefeng.roses</groupId>
             <artifactId>workflow-spring-boot-starter</artifactId>
             <version>${roses.kernel.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-spring</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>mybatis</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--saas-->
