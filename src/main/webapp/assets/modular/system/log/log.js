@@ -22,7 +22,7 @@ layui.use(['HttpRequest', 'treeTable', 'laydate', 'func', 'form'], function () {
             {field: 'logId', hide: true, sort: true, title: 'id'},
             /*{field: 'logType', align: "center", sort: true, title: '日志类型'},*/
             {field: 'logName', align: "center", sort: true, title: '日志名称'},
-            {field: 'userId', align: "center", sort: true, title: '用户名称'},
+            {field: 'realName', align: "center", sort: true, title: '用户名称'},
             {field: 'appName', align: "center", sort: true, title: '服务名称'},
             {field: 'requestUrl', align: "center", sort: true, title: '方法名'},
             {field: 'createTime', align: "center", sort: true, title: '时间'},
@@ -36,8 +36,8 @@ layui.use(['HttpRequest', 'treeTable', 'laydate', 'func', 'form'], function () {
      */
     Log.search = function () {
         var queryData = {};
-        queryData['beginDateTime'] = $("#beginDateTime").val();
-        queryData['endDateTime'] = $("#endDateTime").val();
+        queryData['beginDate'] = $("#beginDate").val();
+        queryData['endDate'] = $("#endDate").val();
         queryData['logName'] = $("#logName").val();
         queryData['appName'] = $("#appName").val();
         // queryData['logType'] = $("#logType").val();
@@ -72,10 +72,10 @@ layui.use(['HttpRequest', 'treeTable', 'laydate', 'func', 'form'], function () {
      */
     Log.cleanLog = function () {
         var queryData = {};
-        queryData['beginDateTime'] = $("#beginDate").val();
-        queryData['endDateTime'] = $("#endDate").val();
+        queryData['beginDate'] = $("#beginDate").val();
+        queryData['endDate'] = $("#endDate").val();
         queryData['appName'] = $("#appName").val();
-        if (queryData.beginDateTime == "" || queryData.endDateTime == "" || queryData.appName == "") {
+        if (queryData.beginDate == "" || queryData.endDate == "" || queryData.appName == "") {
             Feng.error("请选择开始时间、结束时间和服务名称");
             return false;
         }
@@ -92,12 +92,12 @@ layui.use(['HttpRequest', 'treeTable', 'laydate', 'func', 'form'], function () {
 
     // 渲染时间选择框
     laydate.render({
-        elem: '#beginDateTime'
+        elem: '#beginDate'
     });
 
     //渲染时间选择框
     laydate.render({
-        elem: '#endDateTime'
+        elem: '#endDate'
     });
 
     // 渲染表格

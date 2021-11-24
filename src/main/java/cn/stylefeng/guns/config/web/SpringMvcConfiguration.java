@@ -5,6 +5,7 @@ import cn.stylefeng.guns.core.error.CustomErrorAttributes;
 import cn.stylefeng.guns.core.error.CustomErrorView;
 import cn.stylefeng.guns.core.security.AuthJwtTokenSecurityInterceptor;
 import cn.stylefeng.guns.core.security.PermissionSecurityInterceptor;
+import cn.stylefeng.roses.kernel.security.cors.CorsFilterConfiguration;
 import cn.stylefeng.guns.core.security.WxMiniappSecurityInterceptor;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -24,7 +25,7 @@ import javax.annotation.Resource;
  * @date 2020/4/11 10:23
  */
 @Configuration
-@Import({cn.hutool.extra.spring.SpringUtil.class})
+@Import({cn.hutool.extra.spring.SpringUtil.class, CorsFilterConfiguration.class})
 public class SpringMvcConfiguration implements WebMvcConfigurer {
 
     @Resource

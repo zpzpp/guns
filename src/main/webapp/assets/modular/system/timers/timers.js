@@ -17,10 +17,12 @@ layui.use(['table', 'admin', 'form', 'func', 'HttpRequest', 'dropdown'], functio
             {type: 'checkbox'},
             {field: 'timerId', hide: true, title: '主键id'},
             {field: 'timerName', sort: true, title: '任务名称'},
+            {field: 'params', sort: true, title: '参数'},
             {field: 'cron', sort: true, title: 'cron表达式'},
             {field: 'actionClass', sort: true, title: '任务class'},
             {field: 'remark', sort: true, title: '备注信息'},
             {field: 'jobStatus', sort: true, templet: '#statusTpl', title: '状态'},
+            {field: 'createUserName', title: '创建人'},
             {align: 'center', toolbar: '#tableBar', title: '操作'}
         ]];
     };
