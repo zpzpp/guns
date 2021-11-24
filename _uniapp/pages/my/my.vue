@@ -362,11 +362,6 @@
 		padding: 50rpx 0 30rpx 0;
 	}
 
-	.open-data {
-		overflow: hidden;
-		display: block;
-		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-	}
 
 	.my-radius {
 		border-radius: 12rpx;

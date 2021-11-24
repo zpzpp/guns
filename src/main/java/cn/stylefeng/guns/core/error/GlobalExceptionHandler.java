@@ -226,15 +226,6 @@ public class GlobalExceptionHandler {
         ResponseRenderUtil.renderJsonResponse(response, errorResponseData);
         return null;
     }
-   /* @ExceptionHandler(WxAuthException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String wxAuthServerError(WxAuthException authException, HttpServletRequest request, HttpServletResponse response, Model model) {
-
-        // 默认响应前端json
-        ErrorResponseData errorResponseData = renderJson(authException.getErrorCode(), authException.getUserTip(), authException);
-        ResponseRenderUtil.renderJsonResponse(response, errorResponseData);
-        return null;
-    }*/
 
     /**
      * 拦截业务代码抛出的异常

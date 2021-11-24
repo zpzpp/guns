@@ -25,13 +25,7 @@
 package cn.stylefeng.guns.modular.business.wx.miniapp.context;
 
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.stylefeng.roses.kernel.message.websocket.manager.WebSocketManager;
-import org.springframework.util.CollectionUtils;
 
-import javax.websocket.Session;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

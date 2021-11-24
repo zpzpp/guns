@@ -2,15 +2,19 @@
 	<view class="home">
 		<tn-custom bg-color="bg-white">
 			<block slot="left">
-				<navigator class='padding-left-xs' url="/pages/about/about" hover-class="none">
+				<!-- <navigator class='padding-left-xs' url="/pages/about/about" hover-class="none">
 					<view class="cu-avatar round shadow " :style="'background-image:url(' + logoImage + ');'"></view>
-				</navigator>
+				</navigator> -->
+
+				<view class="cu-avatar round margin-right-sm shadow bg-img open-data">
+					<open-data type="userAvatarUrl"></open-data>
+				</view>
 			</block>
 			<block slot="content">
 				<text class="text-xxl text-black" :style="'opacity:' +  (1 - titleOpacity) + ';'">图鸟官网</text>
 			</block>
 			<block slot="right">
-				<view :style="'opacity:' +  titleOpacity + ';'">
+				<view :style="'opacity:' +  titleOpacity + ';display:'+ (titleOpacity < 1 ? 'none' : '')+ ';'">
 					<navigator url="/pages/search/search" hover-class="none">
 						<view class='search-form search-round search-index'>
 							<text class="cuIcon-search text-bold text-lg"></text>
@@ -21,8 +25,79 @@
 				</view>
 			</block>
 		</tn-custom>
+		<view class="cu-bar bg-white margin-top" id="greet_view" >
+			<navigator url="/pages/search/search" hover-class="none" style="width: 100%;">
+				<view class='search-form search-round-all search-index' >
+					<text class="cuIcon-search text-bold text-lg"></text>
+					<input class="" disabled type="text" placeholder="搜索" confirm-type="search"
+						placeholder-style="color:#000"></input>
+				</view>
+			</navigator>
+		</view>
+		<view class="margin">
+			<view class="cu-list grid col-3 no-border index-iconcolor shadow-lg index-radius cu-list-no shadow-shop">
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/dizhi.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index">地址导航</text>
+					</navigator>
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/shoucang.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index">官网网址</text>
+					</navigator>
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/about.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index">关于我们</text>
+					</navigator>
+		
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/dizhi.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index">地址导航</text>
+					</navigator>
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/shoucang.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index">官网网址</text>
+					</navigator>
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/about.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index">关于我们</text>
+					</navigator>
+						
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/dizhi.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index">地址导航</text>
+					</navigator>
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/shoucang.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index">官网网址</text>
+					</navigator>
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/about.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index">关于我们</text>
+					</navigator>
+						
+				</view>
+			</view>
+		</view>
 
-		<view class="cu-bar bg-white margin-top" id="greet_view">
+
+		<view class="cu-bar bg-white margin-top" id="greet_view1">
 			<view class='action'>
 				<text class='text-bold text-title text-xxl'>{{greeting}}</text>
 			</view>
@@ -332,9 +407,9 @@ RG
 </script>
 
 <style scoped>
-	.search-index {
+	/* .search-index {
 		background: rgba(255, 255, 255, 0.4);
-	}
+	} */
 
 	.cu-bar .content image {
 		height: 60rpx;
@@ -385,6 +460,10 @@ RG
 		/* border-bottom-left-radius: 20rpx */
 	}
 
+	.search-round-all {
+		border-radius: 5000rpx;
+	}
+
 
 	.search-index {
 		background: rgba(0, 0, 0, 0.1);
@@ -415,4 +494,6 @@ RG
 		height: 108rpx;
 		opacity: 0.1;
 	}
+
+
 </style>

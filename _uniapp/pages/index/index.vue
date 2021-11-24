@@ -191,4 +191,32 @@
 </script>
 
 <style>
+	.open-data {
+		overflow: hidden;
+		display: block;
+		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	.index-radius {
+		border-radius: 12rpx;
+		overflow: hidden
+	}
+	
+	.index-icon image {
+		width: 100rpx;
+		height: 100rpx;
+		display: inline-block;
+		margin: 0 auto
+	}
+	
+	.index-iconcolor {
+		background: rgba(255, 255, 255, 0.96)
+	}
+	.text-index {
+		color: #aaa !important;
+	}
+	
+	.shadow-shop {
+		box-shadow: 0rpx 0rpx 90rpx 0rpx rgba(0, 0, 0, 0.1);
+	}
 </style>
