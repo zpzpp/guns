@@ -33,20 +33,19 @@
 					<view class="cu-avatar round xl margin-right-sm shadow-blur-lg bg-img open-data">
 						<open-data type="userAvatarUrl"></open-data>
 					</view>
-					<view class='content flex-sub'>
+					<view v-if="checkUserScopeFlag" class='content flex-sub'>
 						<view class='padding-left-sm text-white text-xxl text-shadow-a padding-top-sm'>
-							<open-data type="userNickName"></open-data>
+							<open-data  type="userNickName"></open-data>
 						</view>
 						<view
 							class='text-lg flex justify-between padding-left-sm padding-top-sm text-white text-shadow-a'>
 							欢迎访问图鸟
-							<!-- <view class="text-sm">
-                  <text class="icon-attentionfill"></text> 10
-                  <text class="icon-appreciatefill"></text> 20
-                  <text class="icon-messagefill"></text> 30
-                </view> -->
 						</view>
 					</view>
+					<view v-else class='margin-left-lg content flex-sub'>
+						<button class="cu-btn bg-blue lg" @click="toLogin">登录</button>
+					</view>
+					
 				</view>
 			</view>
 		</view>
@@ -186,7 +185,8 @@
 				</view>
 			</view>
 		</view>
-<tn-wx-login :show="showLogin" :tips="loginMsg" @closeLoginModal="closeLoginModal" @getUserInfo="getUserInfo"></tn-wx-login>
+		<tn-wx-login ref="TnWxLogin" :show="showLogin" :tips="loginMsg" @closeLoginModal="closeLoginModal" @getUserInfo="_getUserInfo">
+		</tn-wx-login>
 	</view>
 </template>
 
@@ -196,12 +196,13 @@
 	} from '@/api/server-config';
 
 	import {
-		checkUserScope,
+		checkUserInfo,
 		getUserInfo
 	} from '@/utils/user.js';
 	var util = require('@/utils/util.js');
 	export default {
 		name: 'My',
+		// components: TnWxLogin,
 		data() {
 			return {
 				checkUserScopeFlag: false, //用户是否已经授权
@@ -231,7 +232,7 @@
 		},
 		created() {
 			this._loadData()
-			this._checkUserScope().then(() => {}).catch(() => {});
+			// this._checkUserScope().then(() => {}).catch(() => {});
 		},
 		methods: {
 			//拨打固定电话
@@ -269,47 +270,72 @@
 				}); */
 			},
 			supportMe() {
-			  console.log('supportMe');
-			  this._checkUserScope().then(() => {
-				   console.log('supportMe login');
-			  }).catch(() => {
-			    this.showLogin = true
-			  });
+				console.log('supportMe');
+				this._checkUserScope().then((res) => {
+					debugger
+					if (res) {
+						console.log('supportMe login');
+					} else {
+						this.showLogin = true
+					}
+				}).catch(() => {
+					this.showLogin = true
+				});
 			},
-			
+			toLogin() {
+				console.log('toLogin');
+				this._checkUserScope().then((res) => {
+					debugger
+					if (res) {
+						console.log('toLogin login');
+					} else {
+						this.showLogin = true
+						this.$refs.TnWxLogin.init()
+						// this._getUserInfo()
+					}
+				}).catch(() => {
+					this.showLogin = true
+					this.$refs.TnWxLogin.init()
+					// this._getUserInfo()
+				});
+			},
+
 			//获取用户登陆状态
-			getUserInfo() {
-			  getUserInfo().then(() => {
-			    this.checkUserScopeFlag = true;
-			    util.showTips('登陆成功', '请继续执行上一步操作');
-			    this.closeLoginModal()
-			  }).catch(() => {
-			    util.showTips('授权提示', '获取授权失败');
-			    this.closeLoginModal();
-			  })
+			_getUserInfo(info) {
+				console.error(info)
+				return
+				getUserInfo().then(() => {
+					this.checkUserScopeFlag = true;
+					util.showTips('登陆成功', '请继续执行上一步操作');
+					this.closeLoginModal()
+				}).catch(() => {
+					
+					util.showTips('授权提示', '获取授权失败');
+					this.closeLoginModal();
+				})
 			},
-			
+
 			// 关闭登录窗口
 			closeLoginModal() {
-			  this.showLogin = false
+				this.showLogin = false
 			},
 			/**
 			 * 检查当前用户的权限
 			 */
 			_checkUserScope() {
-			  return new Promise((resolve, reject) => {
-			    checkUserScope().then((res) => {
-			
-			      this.checkUserScopeFlag = res
-			
-			      resolve();
-			    }).catch((res) => {
-			
-			      this.checkUserScopeFlag = res
-			
-			      reject();
-			    })
-			  })
+				return new Promise((resolve, reject) => {
+					checkUserInfo().then((res) => {
+
+						this.checkUserScopeFlag = res
+
+						resolve(res);
+					}).catch((res) => {
+
+						this.checkUserScopeFlag = res
+
+						reject();
+					})
+				})
 			}
 		}
 	}

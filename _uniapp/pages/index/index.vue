@@ -42,7 +42,7 @@
 
 <script>
   import {
-    checkUserScope,
+    checkUserInfo,
     getUserInfo
   } from '@/utils/user';
   import {
@@ -79,11 +79,14 @@
     onLoad() {
       // 用于更新用户的信息
       //判断是否已经有token，或者验证成功(程序初始化完毕)
-	  verifyToken().then(() => {
-		  checkUserScope()
-	  }).then(() => {
-        getUserInfo();
-      }).catch(() => {})
+	  verifyToken().then(resp => {
+		   // console.log(resp)
+		  return checkUserInfo()
+	  }).then(resp => {
+		  debugger
+		  console.log(resp)
+        // getUserInfo().catch((error) => {console.log(error)});
+      }).catch((error) => {console.log(error)})
     },
     onShareAppMessage() {
       switch (this.curPage) {

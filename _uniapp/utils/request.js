@@ -31,14 +31,14 @@ export function request(params) {
               // 异常不要返回到回调中，就在request中处理，记录日志并showToast一个统一的错误即可
               var code = res.statusCode.toString();
               var startChar = code.charAt(0);
-              if (startChar == '2') {
+              if (startChar == 2) {
                   resolve(res.data);
               } else {
 				  console.log(res)
 				  debugger
                   //token已经过期了，需要重新获取
                   //验证errorCode是用于区别没有授权的网站使用
-                  if (code == '401') {
+                  if (code == 401) {
                       await getTokenFromServer();
                       return request(params);
                   }

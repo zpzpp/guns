@@ -11,6 +11,7 @@ import {
  */
 export function verifyToken() {
 	var token = uni.getStorageSync(TOKEN_NAME); //取出在本地的token
+	debugger
 	if (!token) {
 		return getTokenFromServer(); //如果本地没有token则请求服务器进行获取
 	} else {
@@ -61,7 +62,13 @@ function _veirfyFromServer(token) {
 				if (!valid) {
 					await getTokenFromServer(); //如果验证失败，重新获取Token
 				}
-				reslove()
+				debugger
+				reslove(res)
+			},
+			fail: async(res)=>{
+				await getTokenFromServer(); //如果验证失败，重新获取Token
+				debugger
+				reslove(res)
 			}
 		})
 	})

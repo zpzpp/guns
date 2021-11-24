@@ -129,6 +129,10 @@
       clearKeyword() {
         uni.setStorageSync(this.keyword_cache_key, []);
         this.recentSearchKeywords = []
+		uni.showToast({
+		  title: '清除成功',
+		  icon: 'none',
+		});
       },
 
       // 点击默认的搜索历史

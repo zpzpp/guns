@@ -12,20 +12,41 @@ import {
 export function checkUserScope() {
     const app = getApp();
     return new Promise((reslove, reject) => {
+		debugger
         //判断用户是否已经更新过信息
         if (app.globalData.isUpdateUserInfo == true) {
             reslove(true);
         } else {
+			reject(false);
             //判断用户是否已经授权获取用户信息
-            uni.getSetting({
-                success: (res) => {
-                    if (res.authSetting['scope.userInfo']) {
-                        reslove(true);
-                    } else {
-                        reject(false);
-                    }
-                }
-            });
+     //        uni.getSetting({
+     //            success: (res) => {
+					// debugger
+     //                if (res.authSetting['scope.userInfo']) {
+     //                    reslove(true);
+     //                } else {
+     //                    reject(false);
+     //                }
+     //            }
+     //        });
+        }
+    })
+}
+
+/**
+ * 检查用户是否已经授权登陆
+ */
+export function checkUserInfo() {
+    const app = getApp();
+	
+	let userInfo = uni.getStorageSync(USER_INFO_NAME); //取出在本地的用户信息
+    return new Promise((reslove, reject) => {
+		debugger
+        //判断用户是否已经更新过信息
+        if (userInfo) {
+            reslove(true);
+        } else {
+			reslove(false);
         }
     })
 }
@@ -36,8 +57,10 @@ export function checkUserScope() {
 export function getUserInfo() {
     const app = getApp();
     return new Promise((resolve, reject) => {
-        uni.getUserInfo({
-          provider: 'weixin',
+		debugger
+        uni.getUserProfile({
+          // provider: 'weixin',
+		    desc: '获得您的公开信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
             success: (res) => {
                 if (!app.globalData.isUpdateUserInfo) {
                     _updateUserInfo(app, res);

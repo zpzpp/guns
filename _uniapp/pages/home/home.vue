@@ -144,7 +144,7 @@ RG
 			return {
 				titleOpacity: 0, // 标题透明度
 				greeting: '', //问候语
-				logoImage: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1568101679032-assets/web-upload/ee18e6f9-6735-4cf1-a628-f2b4234dc1dc.jpeg',//'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1568100394340-assets/web-upload/792c999f-bf08-41d5-a33b-21fc5bb263a2.jpeg', //左上角logo的图片
+				logoImage: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1568101679032-assets/web-upload/ee18e6f9-6735-4cf1-a628-f2b4234dc1dc.jpeg', //'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1568100394340-assets/web-upload/792c999f-bf08-41d5-a33b-21fc5bb263a2.jpeg', //左上角logo的图片
 				bannerArr: [
 					'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574735460307-assets/web-upload/b47753a0-58db-4bf3-a97b-340ddba70eef.jpeg',
 					'https://cdn.nlark.com/yuque/0/2019/png/280373/1574735459784-assets/web-upload/db11b70f-0b2c-4b20-9e03-b650d7f0fe06.png',
@@ -179,7 +179,7 @@ RG
 		created() {
 			this._loadData();
 		},
-		updated(){
+		updated() {
 			console.log("首页updated")
 		},
 		methods: {
