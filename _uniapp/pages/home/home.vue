@@ -11,23 +11,23 @@
 				</view>
 			</block>
 			<block slot="content">
-				<text class="text-xxl text-black" :style="'opacity:' +  (1 - titleOpacity) + ';'">图鸟官网</text>
+				<text class="text-xxl text-black" :style="'opacity:' +  (1 - titleOpacity) + ';'">市政院技术标准</text>
 			</block>
 			<block slot="right">
 				<view :style="'opacity:' +  titleOpacity + ';display:'+ (titleOpacity < 1 ? 'none' : '')+ ';'">
 					<navigator url="/pages/search/search" hover-class="none">
 						<view class='search-form search-round search-index'>
 							<text class="cuIcon-search text-bold text-lg"></text>
-							<input class="" disabled type="text" placeholder="搜索" confirm-type="search"
+							<input class="" disabled type="text" placeholder="搜点什么" confirm-type="search"
 								placeholder-style="color:#000"></input>
 						</view>
 					</navigator>
 				</view>
 			</block>
 		</tn-custom>
-		<view class="cu-bar bg-white margin-top" id="greet_view" >
+		<view class="cu-bar bg-white margin-top" id="greet_view">
 			<navigator url="/pages/search/search" hover-class="none" style="width: 100%;">
-				<view class='search-form search-round-all search-index' >
+				<view class='search-form search-round-all search-index'>
 					<text class="cuIcon-search text-bold text-lg"></text>
 					<input class="" disabled type="text" placeholder="搜索" confirm-type="search"
 						placeholder-style="color:#000"></input>
@@ -53,7 +53,7 @@
 						<image src='/static/images/about.png' class='png' mode='aspectFit'></image>
 						<text class="text-xl text-index">关于我们</text>
 					</navigator>
-		
+
 				</view>
 				<view class="cu-item index-icon">
 					<navigator url="" delta="1" hover-class="none">
@@ -72,7 +72,7 @@
 						<image src='/static/images/about.png' class='png' mode='aspectFit'></image>
 						<text class="text-xl text-index">关于我们</text>
 					</navigator>
-						
+
 				</view>
 				<view class="cu-item index-icon">
 					<navigator url="" delta="1" hover-class="none">
@@ -91,7 +91,48 @@
 						<image src='/static/images/about.png' class='png' mode='aspectFit'></image>
 						<text class="text-xl text-index">关于我们</text>
 					</navigator>
-						
+
+				</view>
+			</view>
+		</view>
+		<view class="cu-bar bg-white margin-top-sm">
+			<view class='action'>
+				<text class='text-bold text-title text-xxl'>最新发布</text>
+			</view>
+			<view class='action text-xl opacity-a' @click="navAllCase">
+				查看更多
+				<text class='cuIcon-magic margin-left-xs'> </text>
+			</view>
+		</view>
+
+		<view class="cu-card bg-white article no-card">
+			<view class="cu-item solid-top" v-for="(item, index) in paginateData" :key="index">
+				<view class="content margin-top-sm" @click="navDetail(item.id)">
+					<!-- <image class="product-border solid" :src="item.main_image.prefix" mode="aspectFill"></image> -->
+					<view class="desc" style="margin-top:-8rpx">
+						<view class='text-content'>
+							<view class='text-black name-title-a text-xl tn-align'>{{item.title}}</view>
+
+							<view class='text-gray name-title-b text-lg padding-top-xs tn-align'>{{item.desc}}</view>
+						</view>
+
+						<view class="cu-list  price price-product text-title text-lg text-red" style="margin-top:-8rpx">
+							<view class='flex justify-between'>
+								<view
+									:class="'cu-tag bg-label' + (index%11+1) + ' light round margin-right-sm text-xs padding-xs text-bold'">
+									{{item.category.title}}
+								</view>
+								<view class="margin-top-xs text-gray opacity-a">
+									<text class="cuIcon-attention margin-right-xs"></text> {{item.view_count}}
+									<text class="cuIcon-favor margin-left-sm margin-right-xs"></text>{{item.like_count}}
+								</view>
+							</view>
+						</view>
+					</view>
+					<!-- align-center cuIcon-favor-->
+					<view class="flex justify-center  text-xl "  @click="likeStandard(item.id)"> 
+						<text class="cuIcon-favorfill margin-left-sm margin-right-xs product-border text-yellow"></text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -123,15 +164,7 @@
 		</view>
 
 
-		<view class="cu-bar bg-white margin-top-xl">
-			<view class='action'>
-				<text class='text-bold text-title text-xxl'>热门项目</text>
-			</view>
-			<view class='action text-xl opacity-a' @click="navAllCase">
-				全部
-				<text class='cuIcon-magic margin-left-xs'> </text>
-			</view>
-		</view>
+
 
 		<block>
 			<view class="padding-sm bg-white">
@@ -187,6 +220,35 @@
 				<text class='cuIcon-skinfill'></text>
 			</view>
 		</view>
+		<!-- <view class="shop" @click="navMpShopProductList">
+			<view class="bg0 pa">
+				<view class="bg1">
+					<image src="/static/images/shop1.png" class="button-shop shadow"></image>
+				</view>
+			</view>
+			<view class="hx-box pa">
+				<view class="pr">
+					<view class="hx-k1 pa0">
+						<view class="span"></view>
+					</view>
+					<view class="hx-k2 pa0">
+						<view class="span"></view>
+					</view>
+					<view class="hx-k3 pa0">
+						<view class="span"></view>
+					</view>
+					<view class="hx-k4 pa0">
+						<view class="span"></view>
+					</view>
+					<view class="hx-k5 pa0">
+						<view class="span"></view>
+					</view>
+					<view class="hx-k6 pa0">
+						<view class="span"></view>
+					</view>
+				</view>
+			</view>
+		</view> -->
 	</view>
 </template>
 RG
@@ -236,6 +298,39 @@ RG
 					id: 3,
 					imgUrl: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
 				}], //推荐案例信息
+				paginateData:[{
+					id:1,
+					main_image:{prefix:'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'},
+					title:'城市道路绿化规划与设计规范',
+					desc:'中华人民共和国建设部',
+					category:{title:'CJJ75-97'},
+					view_count:1,
+					like_count:1,
+				},{
+					id:2,
+					main_image:{prefix:'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'},
+					title:'城市道路绿化规划与设计规范',
+					desc:'中华人民共和国建设部',
+					category:{title:'CJJ75-97'},
+					view_count:1,
+					like_count:1,
+				},{
+					id:3,
+					main_image:{prefix:'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'},
+					title:'城市道路绿化规划与设计规范',
+					desc:'中华人民共和国建设部',
+					category:{title:'CJJ75-97'},
+					view_count:1,
+					like_count:1,
+				},{
+					id:4,
+					main_image:{prefix:'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'},
+					title:'城市道路绿化规划与设计规范',
+					desc:'中华人民共和国建设部',
+					category:{title:'CJJ75-97'},
+					view_count:1,
+					like_count:1,
+				}],
 				businessTitle: [{
 					id: 1,
 					title: 'UI设计'
@@ -279,9 +374,10 @@ RG
 
 			// 跳转到搜索
 			navSearch(e) {
-				uni.navigateTo({
-					url: '/pages/search/search',
-				});
+				this.$emit('switchTab', 'search')
+				// uni.navigateTo({
+				// 	url: '/pages/search/search',
+				// });
 			},
 
 			// 加载必要的数据
@@ -496,4 +592,135 @@ RG
 	}
 
 
+	/* 悬浮按钮 */
+	.button-shop {
+		width: 90rpx;
+		height: 90rpx;
+		display: flex;
+		flex-direction: row;
+		position: fixed;
+		/* bottom:200rpx;
+      right: 20rpx; */
+		left: 5rpx;
+		top: 5rpx;
+		z-index: 1001;
+		border-radius: 100px;
+		opacity: 0.9;
+	}
+
+
+	/* 按钮 */
+	.shop {
+		bottom: 300rpx;
+		right: 75rpx;
+		position: fixed;
+		z-index: 9999;
+	}
+
+
+	.pa,
+	.pa0 {
+		position: absolute
+	}
+
+	.pa0 {
+		left: 0;
+		top: 0
+	}
+
+
+	.bg0 {
+		width: 100rpx;
+		height: 100rpx;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.bg1 {
+		width: 100%;
+		height: 100%;
+	}
+
+	.cu-card.article>.cu-item .content>image {
+		height: 180rpx;
+	}
+	.cu-card.article>.cu-item {
+		padding-bottom: 10rpx;
+		padding-top: 5rpx;
+	}
+
+	.hx-box {
+		top: 50%;
+		left: 50%;
+		width: 100rpx;
+		height: 100rpx;
+		transform-style: preserve-3d;
+		transform: translate(-50%, -50%) rotateY(75deg) rotateZ(10deg);
+	}
+
+	.hx-box .pr {
+		width: 100rpx;
+		height: 100rpx;
+		transform-style: preserve-3d;
+		animation: hxz 20s linear infinite;
+	}
+
+	@keyframes hxz {
+		0% {
+			transform: rotateX(0deg);
+		}
+
+		100% {
+			transform: rotateX(-360deg);
+		}
+	}
+
+
+
+	.hx-box .pr .pa0 {
+		width: 100rpx;
+		height: 100rpx;
+		/* border: 4px solid #5ec0ff; */
+		border-radius: 1000px;
+	}
+
+	.hx-box .pr .pa0 .span {
+		display: block;
+		width: 100%;
+		height: 100%;
+		background: url(https://z3.ax1x.com/2021/07/06/RoKanS.png) no-repeat center center;
+		background-size: 100% 100%;
+		animation: hx 4s linear infinite;
+	}
+
+	@keyframes hx {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.hx-k1 {
+		transform: rotateX(-60deg) rotateZ(-60deg)
+	}
+
+	.hx-k2 {
+		transform: rotateX(-30deg) rotateZ(-30deg)
+	}
+
+	.hx-k3 {
+		transform: rotateX(0deg) rotateZ(0deg)
+	}
+
+	.hx-k4 {
+		transform: rotateX(30deg) rotateZ(30deg)
+	}
+
+	.hx-k5 {
+		transform: rotateX(60deg) rotateZ(60deg)
+	}
+
+	.hx-k6 {
+		transform: rotateX(90deg) rotateZ(90deg)
+	}
 </style>

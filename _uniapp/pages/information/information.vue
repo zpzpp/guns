@@ -13,18 +13,18 @@
         <view class="content margin-top-sm" @click="navDetail(item.id)">
           <image class="product-border solid" :src="item.main_image.prefix" mode="aspectFill"></image>
           <view class="desc" style="margin-top:-8rpx">
-            <view class='text-content product-title'>
-              <view class='text-black name-title-b text-xl'>{{item.title}}</view>
+            <view class='text-content'>
+              <view class='text-black name-title-a text-xl tn-align'>{{item.title}}</view>
 
-              <view class='text-gray name-title-a text-lg padding-top-xs'>{{item.desc}}</view>
+              <view class='text-gray name-title-b text-lg padding-top-xs tn-align'>{{item.desc}}</view>
             </view>
 
             <view class="cu-list  price price-product text-title text-lg text-red" style="margin-top:-8rpx">
               <view class='flex justify-between'>
                 <view :class="'cu-tag bg-label' + (index%11+1) + ' light round margin-right-sm text-df padding text-bold'">{{item.category.title}}</view>
                 <view class="margin-top-xs text-gray opacity-a">
-                  <text class="cuIcon-attentionfill"></text> {{item.view_count}}
-                  <text class="cuIcon-appreciatefill margin-left-sm"></text> {{item.like_count}}
+                  <text class="cuIcon-attentionfill margin-right-xs"></text> {{item.view_count}}
+                  <text class="cuIcon-appreciatefill margin-left-sm margin-right-xs"></text> {{item.like_count}}
                 </view>
               </view>
             </view>
@@ -44,7 +44,39 @@
     name: 'Information',
     data() {
       return {
-        paginateData: [],
+        paginateData:[{
+        	id:1,
+        	main_image:{prefix:'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'},
+        	title:'城市道路绿化规划与设计规范',
+        	desc:'中华人民共和国建设部',
+        	category:{title:'CJJ75-97'},
+        	view_count:1,
+        	like_count:1,
+        },{
+        	id:2,
+        	main_image:{prefix:'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'},
+        	title:'城市道路绿化规划与设计规范',
+        	desc:'中华人民共和国建设部',
+        	category:{title:'CJJ75-97'},
+        	view_count:1,
+        	like_count:1,
+        },{
+        	id:3,
+        	main_image:{prefix:'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'},
+        	title:'城市道路绿化规划与设计规范',
+        	desc:'中华人民共和国建设部',
+        	category:{title:'CJJ75-97'},
+        	view_count:1,
+        	like_count:1,
+        },{
+        	id:4,
+        	main_image:{prefix:'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'},
+        	title:'城市道路绿化规划与设计规范',
+        	desc:'中华人民共和国建设部',
+        	category:{title:'CJJ75-97'},
+        	view_count:1,
+        	like_count:1,
+        }],
         paginateCacheData: [],
         category_id: 0, // 当前获取数据的栏目id
         pageIndex: 1, // 当前数据的页码
@@ -52,7 +84,7 @@
       }
     },
     created() {
-      this._loadData();
+      // this._loadData();
     },
     methods: {
       // 跳转到资讯详情

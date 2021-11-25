@@ -2,7 +2,8 @@
   <view class="index">
     <home v-if="tabberPageLoadFlag.home" :style="{display: curPage != 'home' ? 'none' : ''}" ref="home" @switchTab="switchTab"></home>
     <case v-if="tabberPageLoadFlag.case" :style="{display: curPage != 'case' ? 'none' : ''}" ref="case"></case>
-    <components v-if="tabberPageLoadFlag.components" :style="{display: curPage != 'components' ? 'none' : ''}" ref="components"></components>
+    <!-- <components v-if="tabberPageLoadFlag.components" :style="{display: curPage != 'components' ? 'none' : ''}" ref="components"></components> -->
+    <search v-if="tabberPageLoadFlag.search" :style="{display: curPage != 'search' ? 'none' : ''}" ref="search"></search>
     <information v-if="tabberPageLoadFlag.information" :style="{display: curPage != 'information' ? 'none' : ''}" ref="information"></information>
     <my v-if="tabberPageLoadFlag.my" :style="{display: curPage != 'my' ? 'none' : ''}" ref="my"></my>
 
@@ -20,9 +21,13 @@
         </view>
         <view :class="curPage=='case'?'text-select-color':'text-color'">案例</view>
       </view>
-      <view class="action text-color add-action" @click="navChange" data-cur="components">
+      <!-- <view class="action text-color add-action" @click="navChange" data-cur="components">
         <button class="cu-btn cuIcon-wefill icon-bg shadow"></button>
         <view :class="curPage=='components'?'text-select-color':'text-color'">组件</view>
+      </view> -->
+	  <view class="action text-color add-action" @click="navChange" data-cur="search">
+        <button class="cu-btn cuIcon-searchlist icon-bg shadow"></button>
+        <view :class="curPage=='search'?'text-select-color':'text-color'">查询</view>
       </view>
       <view class="action" @click="navChange" data-cur="information">
         <view class='cuIcon-cu-image'>

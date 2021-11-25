@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="cu-custom" :style="[{height:CustomBar + 'px'}]">
+		<view class="cu-custom" :style="[!isAlpha ? {height:CustomBar + 'px'} : '']">
 			<view class="cu-bar fixed" :style="style" :class="[bgImage!=''?'none-bg text-white bg-img':'',bgColor]">
 				<view class="action" @tap="BackPage" v-if="isBack">
 					<text class="cuIcon-back"></text>
@@ -32,9 +32,13 @@
 				const StatusBar = this.StatusBar;
 				const CustomBar = this.CustomBar;
 				const bgImage = this.bgImage;
-				const style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
+				const bgCustomColor = this.bgCustomColor;
+				let style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
 				if (this.bgImage) {
 					style = `${style}background-image:url(${bgImage});`;
+				}
+				if (!this.bgImage && this.bgCustomColor) {
+					style = `${style}background-color:${bgCustomColor};`;
 				}
 				return style
 			}
@@ -44,11 +48,19 @@
 				type: String,
 				default: ''
 			},
+			bgCustomColor: {
+				type: String,
+				default: ''
+			},
 			isBack: {
 				type: [Boolean, String],
 				default: false
 			},
 			isLeft: {
+				type: [Boolean, String],
+				default: false
+			},
+			isAlpha: {
 				type: [Boolean, String],
 				default: false
 			},
