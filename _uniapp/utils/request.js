@@ -26,7 +26,6 @@ export function request(params) {
               'Authorization': uni.getStorageSync(TOKEN_NAME)
           },
           success: async (res) => {
-			  debugger
               // 判断以2（2xx)开头的状态码为正确
               // 异常不要返回到回调中，就在request中处理，记录日志并showToast一个统一的错误即可
               var code = res.statusCode.toString();
@@ -47,7 +46,6 @@ export function request(params) {
               }
           },
           fail: (err) => {
-			  debugger
               //wx.hideNavigationBarLoading();
               _processError(err);
               reject(err);
