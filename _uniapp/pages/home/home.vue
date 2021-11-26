@@ -130,7 +130,7 @@
 						</view>
 					</view>
 					<!-- align-center cuIcon-favor-->
-					<view class="flex justify-center  text-xl "  @click="likeStandard(item.id)"> 
+					<view class="flex justify-center  text-xl "  @click.stop="likeStandard(item.id)"> 
 						<text class="cuIcon-favorfill margin-left-sm margin-right-xs product-border text-yellow"></text>
 					</view>
 				</view>
@@ -347,6 +347,7 @@ RG
 			}
 		},
 		created() {
+			console.log("首页created")
 			this._loadData();
 		},
 		updated() {

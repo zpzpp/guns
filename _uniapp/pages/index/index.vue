@@ -48,20 +48,23 @@
 <script>
   import {
     checkUserInfo,
+    checkUserScope,
     getUserInfo
   } from '@/utils/user';
   import {
     verifyToken
   } from '@/utils/token';
+  
   import Home from '@/pages/home/home';
   import Case from '@/pages/case/case';
   import Components from '@/pages/components/home';
   import Information from '@/pages/information/information';
   import My from '@/pages/my/my';
-
+  import MescrollCompMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mixins/mescroll-comp.js";
   const app = getApp()
 
   export default {
+	mixins: [MescrollCompMixin],
     components: {
       Home,
       Case,
@@ -78,11 +81,18 @@
           components: false,
           information: false,
           my: false
+        },
+        pageScrollTopValue: {
+          home: 0,
+          case: 0,
+          components: 0,
+          information: 0,
+          my: 0
         }
       }
     },
-    onLoad() {
-      // 用于更新用户的信息
+    onLoad(options) {
+      /* // 用于更新用户的信息
       //判断是否已经有token，或者验证成功(程序初始化完毕)
 	  verifyToken().then(resp => {
 		   // console.log(resp)
@@ -91,7 +101,23 @@
 		  debugger
 		  console.log(resp)
         // getUserInfo().catch((error) => {console.log(error)});
-      }).catch((error) => {console.log(error)})
+      }).catch((error) => {console.log(error)}) */
+	  const tab_switch = options.tab || ''
+	  
+	  // 如果tab_switch的值为空则是新进入程序，才执行更新用户信息
+	  if (tab_switch == '') {
+	    // 用于更新用户的信息
+	    // #ifdef MP-WEIXIN
+	    //判断是否已经有token，或者验证成功(程序初始化完毕)
+	    checkUserScope().then((scope_res) => {
+	      verifyToken().then((token_res) => {
+	        // console.log('verify_token', token_res);
+	      })
+	    }).catch(() => {})
+	    // #endif
+	  } else {
+	    this.switchTab(tab_switch)
+	  }
     },
     onShareAppMessage() {
       switch (this.curPage) {
@@ -170,10 +196,12 @@
           break
       }
     },
-    onReachBottom() {
+   onReachBottom() {
       switch (this.curPage) {
         case 'case':
-          this.$refs.case.handleNextPage()
+          // this.$refs.case.handleNextPage()
+			let item = this.$refs["case"];
+			if(item && item.mescroll) item.mescroll.onReachBottom();
           break
         case 'information':
           this.$refs.information.handleNextPage()
@@ -186,10 +214,34 @@
       navChange(e) {
         this.curPage = this.$getDataSet(e, 'cur')
         this.tabberPageLoadFlag[this.curPage] = true
+		uni.pageScrollTo({
+		  scrollTop: 0,
+		  duration: 0
+		})
+		
+		// console.log(this.pageScrollTopValue[this.curPage]);
+		
+		if(this.curPage == 'case') {
+		  this.$refs.case && this.$refs.case.switchNavScrollStatus(true)
+		}else {
+		  this.$refs.case && this.$refs.case.switchNavScrollStatus(false)
+		}
       },
       switchTab(name) {
         this.curPage = name
-        this.tabberPageLoadFlag[this.curPage] = true
+        if(!this.tabberPageLoadFlag[this.curPage]) {
+          this.tabberPageLoadFlag[this.curPage] = true
+        }
+        uni.pageScrollTo({
+          scrollTop: 0,
+          duration: 0
+        })
+        
+        if(this.curPage == 'case') {
+          this.$refs.case && this.$refs.case.switchNavScrollStatus(true)
+        }else {
+          this.$refs.case && this.$refs.case.switchNavScrollStatus(false)
+        }
       }
     }
   }

@@ -7,15 +7,50 @@
 				</view>
 			</block>
 		</tn-custom>
-		<scroll-view scroll-x class="bg-white nav shadow fixed" scroll-with-animation :scroll-left="scrollLeft"
-			:style="'padding-top:' + (CustomBar + 15) + 'px;'">
-			<view :class="['cu-item text-lg', index == TabCur ? ' text-black cur text-bold text-xl' : '']"
-				v-for="(item, index) in caseNav" :key="index" @click='navSelect(item.id, index)'>
-				{{item.title}}
-			</view>
+		<scroll-view v-if="showNavScroll" scroll-x="true" class="bg-white nav fixed" scroll-with-animation="true"
+			:scroll-left="scrollLeft" :style="'padding-top:' + (CustomBar + 15) + 'px;'">
+			<block v-for="(item, index) in caseNav" :key="index">
+				<view :class="['cu-item text-lg', index == TabCur ? ' text-black cur text-bold text-xl' : '']"
+					@click='navSelect(item.id, index)'>
+					{{item.title}}
+				</view>
+			</block>
 		</scroll-view>
+		<mescroll-body ref="mescrollRef" top="125" @init="mescrollInit" @down="downCallback" @up="upCallback"
+			:down="downOption" :up="upOption">
 
-		<view class="cu-card article no-card padding-top-sm"
+			<view class="cu-card article no-card padding-top">
+				<view class="cu-item" v-for="(item, index) in paginateData" :key="index">
+					<view class="content margin-top-sm" @click="navDetail(item.id)">
+						<view class="desc" style="margin-top:-8rpx">
+							<view class='text-content'>
+								<view class='text-black name-title-a text-xl tn-align'>{{item.title}}</view>
+
+								<view class='text-gray name-title-b text-lg padding-top-xs tn-align'>{{item.desc}}
+								</view>
+							</view>
+
+							<view class="cu-list  price price-product text-title text-lg text-red"
+								style="margin-top:-8rpx">
+								<view class='flex justify-between'>
+									<view
+										:class="'cu-tag bg-label' + (index%11+1) + ' light round margin-right-sm text-df padding text-bold'">
+										{{item.category.title}}</view>
+									<view class="margin-top-xs text-gray opacity-a">
+										<text class="cuIcon-attentionfill margin-right-xs"></text> {{item.view_count}}
+										<text class="cuIcon-appreciatefill margin-left-sm margin-right-xs"></text>
+										{{item.like_count}}
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+
+
+		</mescroll-body>
+		<!-- <view class="cu-card article no-card padding-top-sm"
 			:style="'padding-top:' + CustomBar + 'px;padding-bottom:' + CustomBar + 'px;'"
 			v-if="isLoadAll && categoryData.length == 0">
 			<view class="cu-item">
@@ -39,8 +74,7 @@
 					</view>
 				</view>
 			</block>
-		</view>
-		
+		</view> -->
 		<!-- <view class="cu-load text-gray" :class="!true?'loading':'over'"></view> -->
 		<!-- <view class="flex-sub text-center" v-if="isLoadAll">
 			<view class="solid-top text-df padding text-gray">已加载全部</view>
@@ -57,6 +91,7 @@
 		getCaseCategoryPaginationData
 	} from '@/api/case';
 
+	import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
 
 
 	export default {
@@ -67,22 +102,193 @@
 				default: false
 			}
 		},
+		mixins: [MescrollMixin], // 使用mixin
+
 		data() {
 			return {
 				CustomBar: this.CustomBar,
 				TabCur: 0,
-				caseNav: ['全部', '小程序', '网站', 'APP', 'UI设计'],
+				caseNav: [{
+					id: 1,
+					title: '全部'
+				}, {
+					id: 2,
+					title: '小程序'
+				}, {
+					id: 3,
+					title: '网站'
+				}, {
+					id: 4,
+					title: 'APP'
+				}, {
+					id: 4,
+					title: 'UI设计'
+				}],
+				showNavScroll: true,
 				scrollLeft: 0,
 				categoryData: [], // 案例栏目数据
 				categoryCacheData: [], // 案例栏目缓存数据
 				category_id: 0, // 当前获取数据的栏目id
 				pageIndex: 1, // 当前数据的页码
 				isLoadAll: false, //是否全部已经加载完毕
+				mescroll: null, // mescroll实例对象 (此行可删,mixins已默认)
+				// 下拉刷新的配置(可选, 绝大部分情况无需配置)
+				downOption: {},
+				// 上拉加载的配置(可选, 绝大部分情况无需配置)
+				upOption: {
+					// page: {
+					// 	size: 10 // 每页数据的数量,默认10
+					// },
+
+					textNoMore: '已加载全部', // 没有更多数据的提示文本
+					noMoreSize: 4, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+					empty: {
+						tip: '~ 暂无数据 ~', // 提示
+						btnText: '去看看'
+					}
+				},
+				paginateData: [{
+					id: 1,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 2,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 3,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 4,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 4,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 4,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 4,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 4,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 4,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 4,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}, {
+					id: 4,
+					main_image: {
+						prefix: 'https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1574736532111-assets/web-upload/e80331b5-3172-4c01-930d-0077f2198835.jpeg'
+					},
+					title: '城市道路绿化规划与设计规范',
+					desc: '中华人民共和国建设部',
+					category: {
+						title: 'CJJ75-97'
+					},
+					view_count: 1,
+					like_count: 1,
+				}],
+				// 列表数据
+				dataList: [1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2,
+					1, 2, 2, 2, 1, 2, 2, 2
+				]
 			}
 		},
 		created() {
 			this.TabCur = 0
-			this._loadData();
+			// this._loadData();
 		},
 		methods: {
 			// 导航栏选择事件
@@ -106,11 +312,50 @@
 				this._loadPaginateData(index);
 			},
 
+			switchNavScrollStatus(status) {
+				this.showNavScroll = status
+			},
+
 			// 跳转到案例详情
 			navDetail(id) {
 				uni.navigateTo({
 					url: '/pages/case-detail/case-detail?id=' + id,
 				});
+			},
+			mescrollInit(mescroll) {
+				this.mescroll = mescroll;
+			},
+			/*下拉刷新的回调, 有3种处理方式:*/
+			downCallback() {
+				// 绝大部分情况methods中都不用写downCallback的,此时会默认调MescrollMixin的downCallback (效果同第2种)
+
+				// 第1种: 请求具体接口
+				/* uni.request({
+					url: 'xxxx',
+					success: () => {
+						// 请求成功,隐藏加载状态
+						this.mescroll.endSuccess()
+					},
+					fail: () => {
+						// 请求失败,隐藏加载状态
+						this.mescroll.endErr()
+					}
+				}) */
+				// 第2种: 下拉刷新和上拉加载调同样的接口, 则不用第1种, 直接mescroll.resetUpScroll()即可
+				this.mescroll.resetUpScroll(); // 重置列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+				// 第3种: 下拉刷新什么也不处理, 可直接调用或者延时一会调用 mescroll.endSuccess() 结束即可
+				// this.mescroll.endSuccess()
+			},
+			/*上拉加载的回调*/
+			upCallback(page) {
+				console.log(page)
+				let _this = this;
+				setTimeout(function() {
+
+					_this.mescroll.endSuccess(5);
+					// _this.mescroll.endErr();
+				}, 3000);
+
 			},
 
 			// 从下往上拉动进行加载分页数据
