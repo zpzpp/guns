@@ -38,58 +38,60 @@
 			<view class="cu-list grid col-3 no-border index-iconcolor shadow-lg index-radius cu-list-no shadow-shop">
 				<view class="cu-item index-icon">
 					<navigator url="" delta="1" hover-class="none">
-						<image src='/static/images/dizhi.png' class='png' mode='aspectFit'></image>
-						<text class="text-xl text-index">地址导航</text>
+						
+						  <view class="cu-avatar xl round shadow " :style="'background-image:url(/static/images/standard/road.png);'" ></view>
+						<!-- <image src='/static/images/standard/road.png' class='png shadow' mode='aspectFit'></image> -->
+						<text class="text-xl text-index text-cut">道路设计规范</text>
 					</navigator>
 				</view>
 				<view class="cu-item index-icon">
 					<navigator url="" delta="1" hover-class="none">
-						<image src='/static/images/shoucang.png' class='png' mode='aspectFit'></image>
-						<text class="text-xl text-index">官网网址</text>
+						<image src='/static/images/standard/bridge.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index text-cut">桥梁设计规范</text>
 					</navigator>
 				</view>
 				<view class="cu-item index-icon">
 					<navigator url="" delta="1" hover-class="none">
-						<image src='/static/images/about.png' class='png' mode='aspectFit'></image>
-						<text class="text-xl text-index">关于我们</text>
-					</navigator>
-
-				</view>
-				<view class="cu-item index-icon">
-					<navigator url="" delta="1" hover-class="none">
-						<image src='/static/images/dizhi.png' class='png' mode='aspectFit'></image>
-						<text class="text-xl text-index">地址导航</text>
-					</navigator>
-				</view>
-				<view class="cu-item index-icon">
-					<navigator url="" delta="1" hover-class="none">
-						<image src='/static/images/shoucang.png' class='png' mode='aspectFit'></image>
-						<text class="text-xl text-index">官网网址</text>
-					</navigator>
-				</view>
-				<view class="cu-item index-icon">
-					<navigator url="" delta="1" hover-class="none">
-						<image src='/static/images/about.png' class='png' mode='aspectFit'></image>
-						<text class="text-xl text-index">关于我们</text>
+						<image src='/static/images/standard/drain-water.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index text-cut">给排水设计规范</text>
 					</navigator>
 
 				</view>
 				<view class="cu-item index-icon">
 					<navigator url="" delta="1" hover-class="none">
-						<image src='/static/images/dizhi.png' class='png' mode='aspectFit'></image>
-						<text class="text-xl text-index">地址导航</text>
+						<image src='/static/images/standard/architecture.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index text-cut">建筑设计规范</text>
 					</navigator>
 				</view>
 				<view class="cu-item index-icon">
 					<navigator url="" delta="1" hover-class="none">
-						<image src='/static/images/shoucang.png' class='png' mode='aspectFit'></image>
-						<text class="text-xl text-index">官网网址</text>
+						<image src='/static/images/standard/geological-survey.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index text-cut">地质勘察规范</text>
 					</navigator>
 				</view>
 				<view class="cu-item index-icon">
 					<navigator url="" delta="1" hover-class="none">
-						<image src='/static/images/about.png' class='png' mode='aspectFit'></image>
-						<text class="text-xl text-index">关于我们</text>
+						<image src='/static/images/standard/make-map.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index text-cut">测绘规范</text>
+					</navigator>
+
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/standard/atlas.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index text-cut">标准图集</text>
+					</navigator>
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/standard/budget.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index text-cut">预算定额</text>
+					</navigator>
+				</view>
+				<view class="cu-item index-icon">
+					<navigator url="" delta="1" hover-class="none">
+						<image src='/static/images/standard/other.png' class='png' mode='aspectFit'></image>
+						<text class="text-xl text-index text-cut">其他类规范</text>
 					</navigator>
 
 				</view>
